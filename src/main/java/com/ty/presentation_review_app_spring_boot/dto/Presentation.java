@@ -3,8 +3,10 @@ package com.ty.presentation_review_app_spring_boot.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
 
 @Entity
 public class Presentation {
@@ -21,14 +24,14 @@ public class Presentation {
 	private int id;
 	private String topic;
 	private String subject;
-	private Status status;
+	private PresentationStatus status;
 	private double totalMarks;
 	@CreationTimestamp
 	private LocalDateTime startedTime;
 	private double totalTime;
 	@OneToMany
 	private List<Review> reviews;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="presentor_id")
 	private User presentor;
 	public int getId() {
@@ -49,10 +52,10 @@ public class Presentation {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public Status getStatus() {
+	public PresentationStatus getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(PresentationStatus status) {
 		this.status = status;
 	}
 	public double getTotalMarks() {
@@ -89,6 +92,5 @@ public class Presentation {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 }

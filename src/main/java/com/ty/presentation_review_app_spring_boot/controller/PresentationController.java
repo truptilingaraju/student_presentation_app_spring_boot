@@ -18,15 +18,21 @@ public class PresentationController {
 	@Autowired
 	private PresentationService service;
 	
-	@PostMapping("/save-presentation")
-	public ResponseEntity<ResponseStructure<Presentation>> savePresentation(@RequestBody Presentation presentation){
+	@PostMapping("/save-presentation/{uid}")
+	public ResponseEntity<ResponseStructure<Presentation>> savePresentation(@RequestBody Presentation presentation, @PathVariable int uid){
 		
-		return service.save(presentation);
+		return service.savePresentation(presentation, uid);
 	}
 	
-	@GetMapping("/get-presentation/{id}")
-	public ResponseEntity<ResponseStructure<Presentation>> getPresentation(@PathVariable int id){
+	@GetMapping("/voting/{pid}")
+	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid){
 		
-		return service.findById(id);
+		return service.startVoting(pid);
+	}
+	
+	@GetMapping("/complete/{pid}")
+	public ResponseEntity<ResponseStructure<Presentation>> completePresentation(@PathVariable int pid){
+		
+		return service.CompletePresentation(pid);
 	}
 }

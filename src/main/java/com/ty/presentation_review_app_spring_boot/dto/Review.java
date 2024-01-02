@@ -1,17 +1,21 @@
 package com.ty.presentation_review_app_spring_boot.dto;
 
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "review")
 public class Review {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
 	private int confidence;
 	private int communication;
 	private int interaction;
@@ -99,6 +103,7 @@ public class Review {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	
 }
