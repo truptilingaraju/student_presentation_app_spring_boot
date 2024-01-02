@@ -9,12 +9,17 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ty.presentation_review_app_spring_boot.dao.ResponseStructure;
 import com.ty.presentation_review_app_spring_boot.dao.UserDao;
+import com.ty.presentation_review_app_spring_boot.dto.Login;
 import com.ty.presentation_review_app_spring_boot.dto.Role;
 import com.ty.presentation_review_app_spring_boot.dto.User;
 import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
+import com.ty.presentation_review_app_spring_boot.exception.LoginFailedException;
+import com.ty.presentation_review_app_spring_boot.exception.TrainnerAlreadyExistException;
+import com.ty.presentation_review_app_spring_boot.exception.UserEmailNotFoundException;
 import com.ty.presentation_review_app_spring_boot.exception.UserNameNotFoundException;
 import com.ty.presentation_review_app_spring_boot.exception.UserRoleNotFoundException;
 
@@ -28,26 +33,33 @@ public class UserService {
 	public ResponseEntity<ResponseStructure<User>> registerUser(User passedUser)
 	{
 		
-		try {
-			User savedUserStatus=userDaoObject.registerUser(passedUser);
-			ResponseStructure<User> responseStructure= new ResponseStructure<User>();
-			responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-			responseStructure.setMessage("Success");
-			responseStructure.setData(savedUserStatus);
-			return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.OK);
-			
-		} catch (DataIntegrityViolationException e) {
-
-			ResponseStructure<User> responseStructure= new ResponseStructure<User>();
-			responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
-			responseStructure.setMessage("Cannot register User Already Exist For Email "+passedUser.getEmail());
-			return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.BAD_REQUEST);
-			
-			
-			
-			
-		}
+		if(passedUser.getRole().equals(Role.Trainer))
+		{
+			try {
+				User savedUserStatus=userDaoObject.registerUser(passedUser);
+				ResponseStructure<User> responseStructure= new ResponseStructure<User>();
+				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+				responseStructure.setMessage("Success");
+				responseStructure.setData(savedUserStatus);
+				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.OK);
 		
+			} catch (DataIntegrityViolationException e)
+			{
+
+				ResponseStructure<User> responseStructure= new ResponseStructure<User>();
+				responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+				responseStructure.setMessage("Cannot register User Already Exist For Email "+passedUser.getEmail());
+				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.BAD_REQUEST);
+		
+		
+			}
+			
+	
+		}
+		else
+		{
+			throw new TrainnerAlreadyExistException();
+		}
 		
 		
 		
@@ -98,9 +110,9 @@ public class UserService {
 	}
 	
 	
-	public ResponseEntity<ResponseStructure<User>> updateUser(User PassedUser)
+	public ResponseEntity<ResponseStructure<User>> updateUser(User PassedUser,int id)
 	{
-		User user=userDaoObject.updateUser(PassedUser);
+		User user=userDaoObject.updateUser(PassedUser,id);
 		if(user!=null)
 		{
 			ResponseStructure<User> userResponse= new ResponseStructure<User>();
@@ -147,6 +159,7 @@ public class UserService {
 		
 		
 		
+		
 	}
 	
 	public ResponseEntity<ResponseStructure<List<User>>> getUserByName(String name)
@@ -171,13 +184,65 @@ public class UserService {
 	}
 	
 	
-	public void updateUserByName(String name,String email,String status)
+	public ResponseEntity<ResponseStructure<User>> updateUserByName(String name,String email,String password)
 	{
-		
+		User user=userDaoObject.updateUserByEmail(name,email,password );
+		if(user!=null)
+		{
+			ResponseStructure<User> userResponseStucture= new ResponseStructure<>();
+			userResponseStucture.setStatusCode(HttpStatus.ACCEPTED.value());
+			userResponseStucture.setMessage("User Successfully Updated");
+			userResponseStucture.setData(user);
+			
+			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.OK);
+		}
+		else
+		{
+			throw new UserNameNotFoundException();
+		}
 	}
 
+	public ResponseEntity<ResponseStructure<User>> updateUserByEmail(String name,String email,String status)
+	{
+		User user=userDaoObject.updateUserByEmail(name,email,status );
+		if(user!=null)
+		{
+			ResponseStructure<User> userResponseStucture= new ResponseStructure<>();
+			userResponseStucture.setStatusCode(HttpStatus.ACCEPTED.value());
+			userResponseStucture.setMessage("User Successfully Updated");
+			userResponseStucture.setData(user);
+			
+			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.OK);
+		}
+		else
+		{
+			throw new UserEmailNotFoundException();
+		}
+	}
+
+	public ResponseEntity<ResponseStructure<User>> login(String email,String password)
+	{
+		User login=userDaoObject.userLogin(email, password);
+		
+		if(login!=null)
+		{
+			ResponseStructure<User> userResponseStucture= new ResponseStructure<>();
+			userResponseStucture.setStatusCode(HttpStatus.ACCEPTED.value());
+			userResponseStucture.setMessage("Login Successfull");
+			userResponseStucture.setData(login);
+			
+			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.OK);
+		
+			
+		}
+		else
+		{
+			throw new LoginFailedException("InValidLogin Credentials");
+		}
+		
 	
-	
+		
+	}
 	
 	
 	
