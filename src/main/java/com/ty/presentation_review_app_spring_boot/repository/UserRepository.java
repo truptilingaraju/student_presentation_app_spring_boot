@@ -20,10 +20,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("select u from User u where u.name=?1")
 	List<User> findUserByName(String name);
 	
-	@Query("update User u set u.status=? and u.email=? where u.name=?")
-	User updateUserByName(String status,String email,String name);
+	@Query("select u from User u where u.email=?1")
+	User getUserByEmail(String email);
 	
-	
+	@Query("select u from User u where u.email=?1 and u.password=?2")
+	User userLogin(String email,String password);
 	
 	
 }
