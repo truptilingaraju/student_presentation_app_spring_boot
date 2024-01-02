@@ -43,8 +43,7 @@ public class UserService {
 				responseStructure.setData(savedUserStatus);
 				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.OK);
 		
-			} catch (DataIntegrityViolationException e)
-			{
+			} catch (DataIntegrityViolationException e) {
 
 				ResponseStructure<User> responseStructure= new ResponseStructure<User>();
 				responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
@@ -52,15 +51,14 @@ public class UserService {
 				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.BAD_REQUEST);
 		
 		
-			}
+		}
 			
 	
-		}
+}
 		else
 		{
 			throw new TrainnerAlreadyExistException();
 		}
-		
 		
 		
 

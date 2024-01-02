@@ -54,10 +54,7 @@ public class UserDao {
 	}
 
 
-	public User updateUser(User passedUser) {
-		Optional<User> user = userRepository.findById(passedUser.getId());
-
-		if (user.isPresent()) {
+	
 
 	
 	public User updateUser(User passedUser,int id)
@@ -73,9 +70,6 @@ public class UserDao {
 
 			return passedUser;
 		}
-
-		return null;
-
 
 		else
 		{
