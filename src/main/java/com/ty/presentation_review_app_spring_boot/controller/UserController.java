@@ -54,10 +54,10 @@ public class UserController {
 	}
 	
 	
-	@PutMapping("updateUser")
-	public ResponseEntity<ResponseStructure<User>> updateUser(@RequestBody User passedUser)
+	@PutMapping("updateUser/{id}")
+	public ResponseEntity<ResponseStructure<User>> updateUser(@RequestBody User passedUser,@PathVariable int id)
 	{
-		return userService.updateUser(passedUser);
+		return userService.updateUser(passedUser,id);
 	}
 	
 	
@@ -68,11 +68,27 @@ public class UserController {
 	}
 	
 	
-	public ResponseEntity<ResponseStructure<List<User>>> updateUserByName()
+	@PutMapping("updateUserByName/{name}/{email}/{status}")
+	public ResponseEntity<ResponseStructure<User>> updateUserByName(@PathVariable String  name, @PathVariable String email, @PathVariable String status )
 	{
-		return null;
+		return userService.updateUserByName(name, email, status);
 		
 	}
+	
+	@PutMapping("updateUserByEmail/{name}/{email}/{status}")
+	public ResponseEntity<ResponseStructure<User>> updateUserByEmail(@PathVariable String  name, @PathVariable String email, @PathVariable String status )
+	{
+		return userService.updateUserByEmail(name, email, status);
+		
+	}
+	
+	@PostMapping("login/{email}/{password}")
+	public ResponseEntity<ResponseStructure<User>> userlogin(@PathVariable String email,@PathVariable String password)
+	{
+		return userService.login(email, password);
+	}
+	
+
 	
 	
 

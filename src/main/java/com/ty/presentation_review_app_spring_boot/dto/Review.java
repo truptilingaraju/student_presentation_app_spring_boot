@@ -4,127 +4,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "review")
 public class Review {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	int id;
 	
-	private int confidence;
+	int communication;
 	
-	private int communication;
+	int confidence;
 	
-	private int interaction;
+	String content;
 	
-	private int eyeContact;
+	int energy;
 	
-	private String content;
+	int eye_contact;
 	
-	private int liveliness;
+	int interaction;
 	
-	private int energy;
+	int liveliness;
 	
-	@OneToOne
-	private User votes;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getConfidence() {
-		return confidence;
-	}
-
-	public void setConfidence(int confidence) {
-		this.confidence = confidence;
-	}
-
-	public int getCommunication() {
-		return communication;
-	}
-
-	public void setCommunication(int communication) {
-		this.communication = communication;
-	}
-
-	public int getInteraction() {
-		return interaction;
-	}
-
-	public void setInteraction(int interaction) {
-		this.interaction = interaction;
-	}
-
-	public int getEyeContact() {
-		return eyeContact;
-	}
-
-	public void setEyeContact(int eyeContact) {
-		this.eyeContact = eyeContact;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public int getLiveliness() {
-		return liveliness;
-	}
-
-	public void setLiveliness(int liveliness) {
-		this.liveliness = liveliness;
-	}
-
-	public int getEnergy() {
-		return energy;
-	}
-
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
-
-	public User getVotes() {
-		return votes;
-	}
-
-	public void setVotes(User votes) {
-		this.votes = votes;
-	}
-
-	public Review(int id, int confidence, int communication, int interaction, int eyeContact, String content,
-			int liveliness, int energy, User votes) {
+	int votes_id;
 		
-		this.id = id;
-		this.confidence = confidence;
-		this.communication = communication;
-		this.interaction = interaction;
-		this.eyeContact = eyeContact;
-		this.content = content;
-		this.liveliness = liveliness;
-		this.energy = energy;
-		this.votes = votes;
-	}
-	
-	public Review() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	
-	
-	
-	
+
 }
