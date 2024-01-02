@@ -1,16 +1,17 @@
 package com.ty.presentation_review_app_spring_boot.exception;
 
-public class UserNameNotFoundException extends RuntimeException {
-	
+public class TrainnerAlreadyExistException extends RuntimeException{
 
+	
 	String message;
 	
-	public UserNameNotFoundException() {
+	public TrainnerAlreadyExistException() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UserNameNotFoundException(String message) {
 	
+	public TrainnerAlreadyExistException(String message) {
+		// TODO Auto-generated constructor stub
 		this.message=message;
 	}
 	
@@ -19,5 +20,4 @@ public class UserNameNotFoundException extends RuntimeException {
 		// TODO Auto-generated method stub
 		return message;
 	}
-
 }

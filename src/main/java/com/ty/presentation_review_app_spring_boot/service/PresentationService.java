@@ -45,7 +45,7 @@ public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presenta
 			}
 			presentations.add(presentation);
 			user.setPresentationList(presentations);
-			userDao.updateUser(user);
+			userDao.updateUser(user, id);
 			
 			ResponseStructure<Presentation> structure=new ResponseStructure<>();
 			structure.setStatusCode(HttpStatus.CREATED.value());

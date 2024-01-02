@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.ty.presentation_review_app_spring_boot.dto.Role;
 import com.ty.presentation_review_app_spring_boot.dto.User;
+
 import com.ty.presentation_review_app_spring_boot.dto.UserStatus;
+
+import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
+
 import com.ty.presentation_review_app_spring_boot.repository.UserRepository;
 
 @Repository
@@ -50,15 +54,29 @@ public class UserDao {
 
 	}
 
-	public User updateUser(User passedUser) {
-		Optional<User> user = userRepository.findById(passedUser.getId());
 
-		if (user.isPresent()) {
+	
+
+	
+	public User updateUser(User passedUser,int id)
+	{
+		Optional<User> user=userRepository.findById(id);
+		
+		if(user.isPresent())
+		{
+			passedUser.setId(id);
+			
+
 			userRepository.save(passedUser);
 
 			return passedUser;
 		}
-		return null;
+
+		else
+		{
+			throw new IdNotFoundException("User Not Exist");
+		}
+		
 
 	}
 
@@ -72,6 +90,32 @@ public class UserDao {
 
 		return userList;
 	}
+
+
+	
+	public User updateUserByEmail(String name,String email,String status)
+	{
+			User userInfo=userRepository.getUserByEmail(email);
+		
+		
+			userInfo.setName(name);
+			
+			userInfo.setRole(Role.Student);
+			
+			userRepository.save(userInfo);
+           		
+		
+			return userInfo;
+		
+	}
+
+	
+	public User userLogin(String email,String password)
+	{
+		User userInfo=userRepository.userLogin(email, password);
+		return userInfo;
+	}
+
 
 //	public boolean updateUserByName(String name, UserStatus status, String email) {
 //		int res = userRepository.updateUserByName(status, email, name);
