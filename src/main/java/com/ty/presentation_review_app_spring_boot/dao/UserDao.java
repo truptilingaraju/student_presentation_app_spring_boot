@@ -10,51 +10,55 @@ import org.springframework.stereotype.Service;
 
 import com.ty.presentation_review_app_spring_boot.dto.Role;
 import com.ty.presentation_review_app_spring_boot.dto.User;
+
+import com.ty.presentation_review_app_spring_boot.dto.UserStatus;
+
 import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
+
 import com.ty.presentation_review_app_spring_boot.repository.UserRepository;
 
 @Repository
 public class UserDao {
 
-	
 	@Autowired
 	UserRepository userRepository;
-	
-	
-	public User registerUser(User passedUser)
-	{
+
+	public User registerUser(User passedUser) {
 		userRepository.save(passedUser);
 		return passedUser;
 	}
-	
-	public User getUserById(int passedUserId)
-	{
-		Optional<User> user=userRepository.findById(passedUserId);
-		
-		if(user.isPresent())
-		{
 
-		  User userWithData=user.get();
-			
-		  return userWithData;
+	public User getUserById(int passedUserId) {
+		Optional<User> user = userRepository.findById(passedUserId);
+
+		if (user.isPresent()) {
+
+			User userWithData = user.get();
+
+			return userWithData;
 		}
 		return null;
 
 	}
-	
-	public boolean deleteUserById(int passedUserId)
-	{
 
-		Optional<User> user=userRepository.findById(passedUserId);
-		
-		if(user.isPresent())
-		{
+	public boolean deleteUserById(int passedUserId) {
+
+		Optional<User> user = userRepository.findById(passedUserId);
+
+		if (user.isPresent()) {
 			userRepository.deleteById(passedUserId);
 			return true;
 		}
 		return false;
-		
+
 	}
+
+
+	public User updateUser(User passedUser) {
+		Optional<User> user = userRepository.findById(passedUser.getId());
+
+		if (user.isPresent()) {
+
 	
 	public User updateUser(User passedUser,int id)
 	{
@@ -64,30 +68,35 @@ public class UserDao {
 		{
 			passedUser.setId(id);
 			
+
 			userRepository.save(passedUser);
 
 			return passedUser;
 		}
+
+		return null;
+
+
 		else
 		{
 			throw new IdNotFoundException("User Not Exist");
 		}
 		
+
 	}
-	
-	
-	public List<User> getUserByRole(Role role)
-	{
-		List<User> userList=userRepository.findUserByRole(role);
+
+	public List<User> getUserByRole(Role role) {
+		List<User> userList = userRepository.findUserByRole(role);
 		return userList;
 	}
-	
-	public List<User> getUserByName(String name)
-	{
-		List<User> userList=userRepository.findUserByName(name);
-		
+
+	public List<User> getUserByName(String name) {
+		List<User> userList = userRepository.findUserByName(name);
+
 		return userList;
 	}
+
+
 	
 	public User updateUserByEmail(String name,String email,String status)
 	{
@@ -112,5 +121,11 @@ public class UserDao {
 		return userInfo;
 	}
 
+
+//	public boolean updateUserByName(String name, UserStatus status, String email) {
+//		int res = userRepository.updateUserByName(status, email, name);
+//		return res == 1;
+//
+//	}
 
 }

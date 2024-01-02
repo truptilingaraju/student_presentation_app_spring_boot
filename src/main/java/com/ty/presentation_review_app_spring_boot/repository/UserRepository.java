@@ -8,17 +8,16 @@ import org.springframework.stereotype.Repository;
 
 import com.ty.presentation_review_app_spring_boot.dto.Role;
 import com.ty.presentation_review_app_spring_boot.dto.User;
-
-
+import com.ty.presentation_review_app_spring_boot.dto.UserStatus;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("select u from User u where u.role=?1")
 	List<User> findUserByRole(Role role);
-	
 
 	@Query("select u from User u where u.name=?1")
 	List<User> findUserByName(String name);
+
 	
 	@Query("select u from User u where u.email=?1")
 	User getUserByEmail(String email);
@@ -27,5 +26,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User userLogin(String email,String password);
 	
 	
-}
 
+
+
+
+
+}
