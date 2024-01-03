@@ -29,7 +29,7 @@ public class PresentationController {
 	@GetMapping("/voting/{pid}")
 	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid,@RequestParam double totalTime){
 		
-		return service.startVoting(pid,totalTime);
+		return service.startVotingById(pid,totalTime);
 	}
 	
 	@GetMapping("/complete/{pid}")
@@ -39,15 +39,15 @@ public class PresentationController {
 	}
 	
 	@GetMapping("/findAll/{uid}")
-	public ResponseEntity<ResponseStructure<List<Presentation>>> getAll(@PathVariable int uid){
+	public ResponseEntity<ResponseStructure<List<Presentation>>> getAllPresentation(@PathVariable int uid){
 		
-		return service.findAll(uid);
+		return service.findAllPresentation(uid);
 	}
 	
 	@GetMapping("/find/{pid}")
-	public ResponseEntity<ResponseStructure<Presentation>> find(@PathVariable int pid){
+	public ResponseEntity<ResponseStructure<Presentation>> findPresentation(@PathVariable int pid){
 		
-		return service.findPresentation(pid);
+		return service.findPresentationById(pid);
 	}
 	
 	@GetMapping("/calculate/{pid}")

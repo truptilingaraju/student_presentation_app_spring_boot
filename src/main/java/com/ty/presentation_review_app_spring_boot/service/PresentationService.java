@@ -62,7 +62,7 @@ public class PresentationService {
 
 	}
 	
-	public ResponseEntity<ResponseStructure<Presentation>> startVoting(int pid, double totalTime) {
+	public ResponseEntity<ResponseStructure<Presentation>> startVotingById(int pid, double totalTime) {
 		
 	   Presentation presentation=presentationDao.findPresentationById(pid);
 	   
@@ -156,7 +156,7 @@ public class PresentationService {
 	}
 	
 	
-	public ResponseEntity<ResponseStructure<List<Presentation>>> findAll(int uid){
+	public ResponseEntity<ResponseStructure<List<Presentation>>> findAllPresentation(int uid){
 		
 		List<Presentation> presentations=presentationDao.getAll(uid);
 		if(presentations.size()>0)
@@ -175,7 +175,7 @@ public class PresentationService {
 	}
 	
 	
-	public ResponseEntity<ResponseStructure<Presentation>> findPresentation(int pid){
+	public ResponseEntity<ResponseStructure<Presentation>> findPresentationById(int pid){
 		
 		Presentation presentation=presentationDao.findPresentationById(pid);
 		
