@@ -41,4 +41,8 @@ public class PresentationDao {
 		
 	}
 	
+	public List<Presentation> getAll(int uid){
+		
+		return pRepository.getAllPresentation(uid);
+	}
 }

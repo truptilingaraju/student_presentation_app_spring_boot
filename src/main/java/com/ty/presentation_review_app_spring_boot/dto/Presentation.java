@@ -29,8 +29,10 @@ public class Presentation {
 	@CreationTimestamp
 	private LocalDateTime startedTime;
 	private double totalTime;
+	@JsonIgnore
 	@OneToMany
 	private List<Review> reviews;
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "presentor_id")
 	@JsonIgnore
