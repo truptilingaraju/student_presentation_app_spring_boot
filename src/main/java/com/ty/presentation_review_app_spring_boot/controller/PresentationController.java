@@ -32,8 +32,7 @@ public class PresentationController {
 	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid,
 			@RequestParam double totalTime) {
 
-		// return service.startVoting(pid, totalTime);
-		return null;
+		return service.startVoting(pid, totalTime);
 	}
 
 	@GetMapping("/complete/{pid}")
@@ -46,6 +45,7 @@ public class PresentationController {
 	public ResponseEntity<ResponseStructure<List<Presentation>>> getAll(@PathVariable int uid) {
 
 		return service.findAll(uid);
+
 	}
 
 	@GetMapping("/find/{pid}")

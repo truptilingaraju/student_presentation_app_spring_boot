@@ -57,7 +57,7 @@ public class PresentationService {
 		}
 
 	}
-
+	
 	public ResponseEntity<ResponseStructure<Presentation>> startVoting(int pid) {
 
 		Presentation presentation = presentationDao.findPresentationById(pid);
@@ -139,7 +139,47 @@ public class PresentationService {
 		} else {
 			throw new PresentationIdNotFoundException("invalid presentation id: " + pid);
 		}
-		 
+
+
+	}
+	
+	
+	public ResponseEntity<ResponseStructure<List<Presentation>>> findAllPresentation(int uid){
+		
+		List<Presentation> presentations=presentationDao.getAll(uid);
+		if(presentations.size()>0)
+		{
+			
+			ResponseStructure<List<Presentation>> structure =new ResponseStructure<>();
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("data fetched successfully");
+			structure.setData(presentations);
+			
+			return new ResponseEntity<ResponseStructure<List<Presentation>>>(structure,HttpStatus.OK);
+		}
+		else {
+			throw new IdNotFoundException("invalid user id: " + uid);
+		}
+	}
+	
+	
+	public ResponseEntity<ResponseStructure<Presentation>> findPresentationById(int pid){
+		
+		Presentation presentation=presentationDao.findPresentationById(pid);
+		
+		if(presentation!=null) {
+			ResponseStructure<Presentation> structure =new ResponseStructure<>();
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("data fetched successfully");
+			structure.setData(presentation);
+			
+			return new ResponseEntity<ResponseStructure<Presentation>>(structure,HttpStatus.OK);
+		}
+		else {
+			throw new PresentationIdNotFoundException("invalid id: " + pid);
+		}
+
+		
 	}
 	
 	public ResponseEntity<ResponseStructure<Presentation>> calculatePresentationMarks(int pid){
