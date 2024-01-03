@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,7 @@ public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presenta
 		
 		if(user!=null) 
 		{
-			
-			
-			
+			presentation.setStatus(PresentationStatus.Assigned);
 			presentation.setPresentor(user);
 			Presentation recievedpresentation=presentationDao.savePresentation(presentation);
 			
@@ -62,7 +61,7 @@ public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presenta
 		
 	}
 	
-	public ResponseEntity<ResponseStructure<Presentation>> startVoting(int pid) {
+	public ResponseEntity<ResponseStructure<Presentation>> startVoting(int pid, double totalTime) {
 		
 	   Presentation presentation=presentationDao.findPresentationById(pid);
 	   
@@ -72,6 +71,7 @@ public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presenta
 			PresentationStatus presentationStatus=presentation.getStatus();
 			if(presentationStatus==PresentationStatus.Assigned) {
 				presentation.setStatus(PresentationStatus.VotingPollOn);
+				presentation.setTotalTime(totalTime);
 				Presentation presentation2=presentationDao.upadtePresentation(presentation);
 				
 				structure.setStatusCode(HttpStatus.ACCEPTED.value());
@@ -153,5 +153,42 @@ public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presenta
 				throw new PresentationIdNotFoundException("invalid presentation id: " + pid );
 			}
 		
+	}
+	
+	
+	public ResponseEntity<ResponseStructure<List<Presentation>>> findAll(int uid){
+		
+		List<Presentation> presentations=presentationDao.getAll(uid);
+		if(presentations.size()>0)
+		{
+			
+			ResponseStructure<List<Presentation>> structure =new ResponseStructure<>();
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("data fetched successfully");
+			structure.setData(presentations);
+			
+			return new ResponseEntity<ResponseStructure<List<Presentation>>>(structure,HttpStatus.OK);
+		}
+		else {
+			throw new IdNotFoundException("invalid user id: " + uid);
+		}
+	}
+	
+	
+	public ResponseEntity<ResponseStructure<Presentation>> findPresentation(int pid){
+		
+		Presentation presentation=presentationDao.findPresentationById(pid);
+		
+		if(presentation!=null) {
+			ResponseStructure<Presentation> structure =new ResponseStructure<>();
+			structure.setStatusCode(HttpStatus.OK.value());
+			structure.setMessage("data fetched successfully");
+			structure.setData(presentation);
+			
+			return new ResponseEntity<ResponseStructure<Presentation>>(structure,HttpStatus.OK);
+		}
+		else {
+			throw new PresentationIdNotFoundException("invalid id: " + pid);
+		}
 	}
 }

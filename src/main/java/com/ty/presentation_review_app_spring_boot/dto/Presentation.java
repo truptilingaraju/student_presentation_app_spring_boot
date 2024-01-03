@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,8 +31,10 @@ public class Presentation {
 	@CreationTimestamp
 	private LocalDateTime startedTime;
 	private double totalTime;
+	@JsonIgnore
 	@OneToMany
 	private List<Review> reviews;
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="presentor_id")
 	private User presentor;

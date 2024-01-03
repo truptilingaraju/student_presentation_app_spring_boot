@@ -33,15 +33,15 @@ public class UserService {
 	public ResponseEntity<ResponseStructure<User>> registerUser(User passedUser)
 	{
 		
-		if(passedUser.getRole().equals(Role.Trainer))
+		if(!passedUser.getRole().equals(Role.Trainer))
 		{
 			try {
 				User savedUserStatus=userDaoObject.registerUser(passedUser);
 				ResponseStructure<User> responseStructure= new ResponseStructure<User>();
-				responseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-				responseStructure.setMessage("Success");
+				responseStructure.setStatusCode(HttpStatus.CREATED.value());
+				responseStructure.setMessage("User saved successfully");
 				responseStructure.setData(savedUserStatus);
-				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.OK);
+				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.CREATED);
 		
 			} catch (DataIntegrityViolationException e) {
 
@@ -73,8 +73,8 @@ public class UserService {
 		if(user!=null)
 		{
 			ResponseStructure<User> userResponseStructure= new ResponseStructure<User>();
-			userResponseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
-			userResponseStructure.setMessage("Success");
+			userResponseStructure.setStatusCode(HttpStatus.OK.value());
+			userResponseStructure.setMessage("User found successfully");
 			userResponseStructure.setData(user);
 			
 			return new ResponseEntity<ResponseStructure<User>>(userResponseStructure,HttpStatus.OK);
@@ -95,8 +95,8 @@ public class UserService {
 		if(userDeletedStatus)
 		{
 			ResponseStructure<String> userResponse= new ResponseStructure<String>();
-			userResponse.setStatusCode(HttpStatus.ACCEPTED.value());
-			userResponse.setMessage("Success");
+			userResponse.setStatusCode(HttpStatus.OK.value());
+			userResponse.setMessage("User Found");
 			userResponse.setData("User Deleted Successfully");
 			return new ResponseEntity<ResponseStructure<String>>(userResponse,HttpStatus.OK);
 		}
@@ -115,7 +115,7 @@ public class UserService {
 		{
 			ResponseStructure<User> userResponse= new ResponseStructure<User>();
 			userResponse.setStatusCode(HttpStatus.ACCEPTED.value());
-			userResponse.setMessage("Success");
+			userResponse.setMessage("User updated successfully");
 			userResponse.setData(user);
 			return new ResponseEntity<ResponseStructure<User>>(userResponse,HttpStatus.OK);
 		
@@ -131,15 +131,15 @@ public class UserService {
 	{
 		
 		if(role.equals(Role.Student)|| role.equals(Role.Trainer))
-		{
+	{
 		List<User> userList=userDaoObject.getUserByRole(role);
 		
 		if(!userList.isEmpty())
 		{
 
 			ResponseStructure<List<User>> userResponse= new ResponseStructure<List<User>>();
-			userResponse.setStatusCode(HttpStatus.ACCEPTED.value());
-			userResponse.setMessage("Success");
+			userResponse.setStatusCode(HttpStatus.OK.value());
+			userResponse.setMessage("Users Found");
 			userResponse.setData(userList);
 			
 			return new ResponseEntity<ResponseStructure<List<User>>>(userResponse,HttpStatus.OK);
@@ -149,15 +149,11 @@ public class UserService {
 			throw new UserRoleNotFoundException("User Does Not Exist For Role :"+role);
 		}
 		
-		}
+	}
 		else
 		{
 			throw new UserRoleNotFoundException("User Does Not Exist For Role :"+role);
 		}
-		
-		
-		
-		
 	}
 	
 	public ResponseEntity<ResponseStructure<List<User>>> getUserByName(String name)
@@ -168,8 +164,8 @@ public class UserService {
 		if(userList!=null)
 		{
 			ResponseStructure<List<User>> userResponseStructure= new ResponseStructure<List<User>>();
-			userResponseStructure.setMessage("Success");
-			userResponseStructure.setStatusCode(HttpStatus.ACCEPTED.value());
+			userResponseStructure.setMessage("User Found Successfully");
+			userResponseStructure.setStatusCode(HttpStatus.OK.value());
 			userResponseStructure.setData(userList);
 			
 			return new ResponseEntity<ResponseStructure<List<User>>>(userResponseStructure,HttpStatus.OK);
@@ -192,7 +188,7 @@ public class UserService {
 			userResponseStucture.setMessage("User Successfully Updated");
 			userResponseStucture.setData(user);
 			
-			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.OK);
+			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.ACCEPTED);
 		}
 		else
 		{
@@ -210,7 +206,7 @@ public class UserService {
 			userResponseStucture.setMessage("User Successfully Updated");
 			userResponseStucture.setData(user);
 			
-			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.OK);
+			return new ResponseEntity<ResponseStructure<User>>(userResponseStucture,HttpStatus.ACCEPTED);
 		}
 		else
 		{
@@ -225,7 +221,7 @@ public class UserService {
 		if(login!=null)
 		{
 			ResponseStructure<User> userResponseStucture= new ResponseStructure<>();
-			userResponseStucture.setStatusCode(HttpStatus.ACCEPTED.value());
+			userResponseStucture.setStatusCode(HttpStatus.OK.value());
 			userResponseStucture.setMessage("Login Successfull");
 			userResponseStucture.setData(login);
 			
