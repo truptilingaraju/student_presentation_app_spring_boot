@@ -20,34 +20,38 @@ public class PresentationController {
 
 	@Autowired
 	private PresentationService service;
-	
+
 	@PostMapping("/save-presentation/{uid}")
-	public ResponseEntity<ResponseStructure<Presentation>> savePresentation(@RequestBody Presentation presentation, @PathVariable int uid){
-		
+	public ResponseEntity<ResponseStructure<Presentation>> savePresentation(@RequestBody Presentation presentation,
+			@PathVariable int uid) {
+
 		return service.savePresentation(presentation, uid);
 	}
+
 	@GetMapping("/voting/{pid}")
-	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid,@RequestParam double totalTime){
-		
-		return service.startVotingById(pid,totalTime);
+	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid,
+			@RequestParam double totalTime) {
+
+		return service.startVoting(pid, totalTime);
 	}
-	
+
 	@GetMapping("/complete/{pid}")
-	public ResponseEntity<ResponseStructure<Presentation>> completePresentation(@PathVariable int pid){
-		
+	public ResponseEntity<ResponseStructure<Presentation>> completePresentation(@PathVariable int pid) {
+
 		return service.CompletePresentation(pid);
 	}
-	
+
 	@GetMapping("/findAll/{uid}")
-	public ResponseEntity<ResponseStructure<List<Presentation>>> getAllPresentation(@PathVariable int uid){
-		
-		return service.findAllPresentation(uid);
+	public ResponseEntity<ResponseStructure<List<Presentation>>> getAll(@PathVariable int uid) {
+
+		return service.findAll(uid);
+
 	}
-	
+
 	@GetMapping("/find/{pid}")
-	public ResponseEntity<ResponseStructure<Presentation>> findPresentation(@PathVariable int pid){
-		
-		return service.findPresentationById(pid);
+	public ResponseEntity<ResponseStructure<Presentation>> find(@PathVariable int pid) {
+
+		return service.findPresentation(pid);
 	}
 	
 	@GetMapping("/calculate/{pid}")

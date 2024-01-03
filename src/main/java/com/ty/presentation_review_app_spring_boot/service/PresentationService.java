@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +27,6 @@ public class PresentationService {
 
 	@Autowired
 	private UserDao userDao;
-	
-
 
 	public ResponseEntity<ResponseStructure<Presentation>> savePresentation(Presentation presentation, int id) {
 
@@ -37,7 +34,6 @@ public class PresentationService {
 
 		if (user != null) {
 
-			presentation.setStatus(PresentationStatus.Assigned);
 			presentation.setPresentor(user);
 			Presentation recievedpresentation = presentationDao.savePresentation(presentation);
 
@@ -62,29 +58,24 @@ public class PresentationService {
 
 	}
 	
-	public ResponseEntity<ResponseStructure<Presentation>> startVotingById(int pid, double totalTime) {
-		
-	   Presentation presentation=presentationDao.findPresentationById(pid);
-	   
-	   ResponseStructure<Presentation> structure=new ResponseStructure<>();
-	   
-		if(presentation!=null) {
-			PresentationStatus presentationStatus=presentation.getStatus();
-			if(presentationStatus==PresentationStatus.Assigned) {
+	public ResponseEntity<ResponseStructure<Presentation>> startVoting(int pid) {
+
+		Presentation presentation = presentationDao.findPresentationById(pid);
+
+		ResponseStructure<Presentation> structure = new ResponseStructure<>();
+
+		if (presentation != null) {
+			PresentationStatus presentationStatus = presentation.getStatus();
+			if (presentationStatus == PresentationStatus.Assigned) {
 				presentation.setStatus(PresentationStatus.VotingPollOn);
-				presentation.setTotalTime(totalTime);
-				Presentation presentation2=presentationDao.upadtePresentation(presentation);
-				
+				Presentation presentation2 = presentationDao.upadtePresentation(presentation);
+
 				structure.setStatusCode(HttpStatus.ACCEPTED.value());
 				structure.setMessage("voting poll on");
 				structure.setData(presentation2);
 
 				return new ResponseEntity<ResponseStructure<Presentation>>(structure, HttpStatus.ACCEPTED);
-				
-			}
-			
-			
-			else if (presentationStatus == PresentationStatus.VotingPollOn) {
+			} else if (presentationStatus == PresentationStatus.VotingPollOn) {
 
 				structure.setStatusCode(HttpStatus.ACCEPTED.value());
 				structure.setMessage("voting is already taking place");
@@ -100,17 +91,13 @@ public class PresentationService {
 				structure.setData(presentation);
 
 				return new ResponseEntity<ResponseStructure<Presentation>>(structure, HttpStatus.ACCEPTED);
-		
-		
-		}
-		}
-			else {
-				throw new PresentationIdNotFoundException("invalid presentation id: " + pid);
-
 			}
-		}		
 
-	
+		} else {
+			throw new PresentationIdNotFoundException("invalid presentation id: " + pid);
+		}
+
+	}
 
 	public ResponseEntity<ResponseStructure<Presentation>> CompletePresentation(int pid) {
 		Presentation presentation = presentationDao.findPresentationById(pid);
@@ -153,6 +140,7 @@ public class PresentationService {
 			throw new PresentationIdNotFoundException("invalid presentation id: " + pid);
 		}
 
+
 	}
 	
 	
@@ -190,6 +178,8 @@ public class PresentationService {
 		else {
 			throw new PresentationIdNotFoundException("invalid id: " + pid);
 		}
+
+		
 	}
 	
 	public ResponseEntity<ResponseStructure<Presentation>> calculatePresentationMarks(int pid){
