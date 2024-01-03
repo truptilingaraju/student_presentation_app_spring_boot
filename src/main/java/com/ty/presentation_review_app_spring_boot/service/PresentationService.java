@@ -14,9 +14,11 @@ import com.ty.presentation_review_app_spring_boot.dao.UserDao;
 import com.ty.presentation_review_app_spring_boot.dto.Presentation;
 import com.ty.presentation_review_app_spring_boot.dto.PresentationStatus;
 import com.ty.presentation_review_app_spring_boot.dto.ResponseStructure;
+import com.ty.presentation_review_app_spring_boot.dto.Review;
 import com.ty.presentation_review_app_spring_boot.dto.User;
 import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
 import com.ty.presentation_review_app_spring_boot.exception.PresentationIdNotFoundException;
+import com.ty.presentation_review_app_spring_boot.exception.ReviewsNotGivenException;
 
 @Service
 public class PresentationService {
@@ -189,4 +191,44 @@ public class PresentationService {
 			throw new PresentationIdNotFoundException("invalid id: " + pid);
 		}
 	}
+	
+	public ResponseEntity<ResponseStructure<Presentation>> calculatePresentationMarks(int pid){
+		Presentation presentation=presentationDao.findPresentationById(pid);
+		double totalMarks=0;
+		double totalNoOfReviews=0;
+		double finalMarks=0;
+		if(presentation!=null && presentation.getStatus()==PresentationStatus.Completed) {
+			
+			List<Review> reviews=presentationDao.getAllReview(pid);
+			totalNoOfReviews=reviews.size();
+			if(reviews.size()>0) {
+				
+				for (Review review : reviews) {
+					totalMarks=totalMarks+review.getCommunication()+review.getConfidence()
+					+review.getContent()+review.getEnergy()+review.getEyecontact()+review.getInteraction()+
+					review.getLiveliness();
+				}
+				
+				finalMarks=totalMarks/totalNoOfReviews;
+				presentation.setTotalMarks(finalMarks);
+				presentationDao.upadtePresentation(presentation);
+				
+				ResponseStructure<Presentation> structure =new ResponseStructure<>();
+				structure.setStatusCode(HttpStatus.ACCEPTED.value());
+				structure.setMessage("marks calculated successfully");
+				structure.setData(presentation);
+				
+				return new ResponseEntity<ResponseStructure<Presentation>>(structure,HttpStatus.ACCEPTED);
+			
+			}
+			else {
+				throw new ReviewsNotGivenException("reviews not given for the presentation");
+			}
+		}
+		else {
+			throw new PresentationIdNotFoundException("invalid id: " + pid);
+		}
+		
+	}
+	
 }
