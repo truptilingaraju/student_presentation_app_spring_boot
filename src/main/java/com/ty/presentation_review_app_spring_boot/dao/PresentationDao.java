@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ty.presentation_review_app_spring_boot.dto.Presentation;
 import com.ty.presentation_review_app_spring_boot.dto.PresentationStatus;
+import com.ty.presentation_review_app_spring_boot.dto.Review;
 import com.ty.presentation_review_app_spring_boot.dto.User;
 import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
 import com.ty.presentation_review_app_spring_boot.repository.PresentationRepository;
@@ -44,5 +45,9 @@ public class PresentationDao {
 	public List<Presentation> getAll(int uid){
 		
 		return pRepository.getAllPresentation(uid);
+	}
+	
+	public List<Review> getAllReview(int pid){
+		return pRepository.getAllReview(pid);
 	}
 }

@@ -21,4 +21,15 @@ public class PresenatationException {
 		
 		return new ResponseEntity<ResponseStructure<String>>(structure,HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(ReviewsNotGivenException.class)
+	public ResponseEntity<ResponseStructure<String>> reviewsNotFound(ReviewsNotGivenException exception){
+		
+		ResponseStructure<String> structure=new ResponseStructure<>();
+		structure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		structure.setMessage(exception.getMessage());
+		structure.setData("not found");
+		
+		return new ResponseEntity<ResponseStructure<String>>(structure,HttpStatus.NOT_FOUND);
+	}
 }

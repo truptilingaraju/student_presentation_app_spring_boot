@@ -53,4 +53,10 @@ public class PresentationController {
 
 		return service.findPresentation(pid);
 	}
+	
+	@GetMapping("/calculate/{pid}")
+	public ResponseEntity<ResponseStructure<Presentation>> calculatePresentation(@PathVariable int pid){
+		
+		return service.calculatePresentationMarks(pid);
+	}
 }
