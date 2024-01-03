@@ -76,9 +76,55 @@ public class UserException {
 		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
 		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
 		responseStructure.setMessage(exception.getMessage());
-		responseStructure.setData("Invalid User Credentials");
+		responseStructure.setData("Trainner Already Exist");
 		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
 		
+	}
+	
+	@ExceptionHandler(UnauthorizedSelfReviewException.class)
+	public ResponseEntity<ResponseStructure<String>> UnauthorizedSelfReviewException(UnauthorizedSelfReviewException exception)
+	{
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage(exception.getMessage());
+		responseStructure.setData("Presentor Can not Give Review");
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		
+	}
+	
+	@ExceptionHandler(PresentationIdNotFoundException.class)
+	public ResponseEntity<ResponseStructure<String>> presentationIdNotFoundException(PresentationIdNotFoundException exception)
+	{
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage(exception.getMessage());
+		responseStructure.setData("Presentation Id Not Found");
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+		
+		
+	}
+	
+	@ExceptionHandler(VotingClosedException.class)
+	public ResponseEntity<ResponseStructure<String>> votingClosedException(VotingClosedException exception)
+	{
+		
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage(exception.getMessage());
+		responseStructure.setData("Voting Already Closed");
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(PresentationIsInAssignedStateException.class)
+	public ResponseEntity<ResponseStructure<String>> presentationIsInAssignedState(PresentationIsInAssignedStateException exception)
+	{
+		
+		ResponseStructure<String> responseStructure= new ResponseStructure<String>();
+		responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
+		responseStructure.setMessage(exception.getMessage());
+		responseStructure.setData("Voting Not Started Yet");
+		return new ResponseEntity<ResponseStructure<String>>(responseStructure,HttpStatus.NOT_FOUND);
 	}
 	
 }
