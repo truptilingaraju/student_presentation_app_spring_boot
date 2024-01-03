@@ -23,7 +23,6 @@ public class PresentationController {
 		
 		return service.savePresentation(presentation, uid);
 	}
-	
 	@GetMapping("/voting/{pid}")
 	public ResponseEntity<ResponseStructure<Presentation>> startVoting(@PathVariable int pid){
 		

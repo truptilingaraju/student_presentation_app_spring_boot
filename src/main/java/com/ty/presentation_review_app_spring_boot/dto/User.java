@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
@@ -36,6 +38,7 @@ public class User{
 	private Role role;
 	
 	@OneToMany(mappedBy = "presentor")
+	@JsonIgnore
 	List<Presentation> presentationList;
 	
 	public int getId() {
