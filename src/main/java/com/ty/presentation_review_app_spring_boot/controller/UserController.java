@@ -2,7 +2,7 @@ package com.ty.presentation_review_app_spring_boot.controller;
 
 import java.util.List;
 
-import org.apache.catalina.core.ApplicationContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

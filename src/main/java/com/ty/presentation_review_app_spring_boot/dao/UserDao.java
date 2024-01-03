@@ -1,17 +1,19 @@
 package com.ty.presentation_review_app_spring_boot.dao;
 
 import java.util.List;
+
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Repository;
+
+import com.ty.presentation_review_app_spring_boot.dto.Presentation;
 import com.ty.presentation_review_app_spring_boot.dto.Role;
 import com.ty.presentation_review_app_spring_boot.dto.User;
 
-import com.ty.presentation_review_app_spring_boot.dto.UserStatus;
+
 
 import com.ty.presentation_review_app_spring_boot.exception.IdNotFoundException;
 
@@ -116,10 +118,6 @@ public class UserDao {
 	}
 
 
-//	public boolean updateUserByName(String name, UserStatus status, String email) {
-//		int res = userRepository.updateUserByName(status, email, name);
-//		return res == 1;
-//
-//	}
+	
 
 }
