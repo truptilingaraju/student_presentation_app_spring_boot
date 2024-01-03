@@ -29,7 +29,6 @@ public class UserService {
 	@Autowired
 	UserDao userDaoObject;
 	
-	
 	public ResponseEntity<ResponseStructure<User>> registerUser(User passedUser)
 	{
 		
@@ -52,12 +51,19 @@ public class UserService {
 		
 		
 		}
+			catch (TrainnerAlreadyExistException e) {
+				ResponseStructure<User> responseStructure= new ResponseStructure<User>();
+				responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
+				responseStructure.setMessage("Cannot register User Already Exist For Email "+passedUser.getEmail());
+				return new ResponseEntity<ResponseStructure<User>>(responseStructure,HttpStatus.BAD_REQUEST);
+		
+			}
 			
 	
 }
 		else
 		{
-			throw new TrainnerAlreadyExistException();
+			throw new TrainnerAlreadyExistException("Trainner Already present");
 		}
 		
 		
