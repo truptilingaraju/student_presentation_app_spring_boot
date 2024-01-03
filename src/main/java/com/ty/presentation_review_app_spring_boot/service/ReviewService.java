@@ -39,6 +39,7 @@ public class ReviewService {
 	
 	public ResponseEntity<ResponseStructure<Review>> saveReview(Review paasedReview,int presentationId,int userId)
 	{
+		User user1=userDaoObject.getUserById(userId);
 		
 		Presentation presentation=presentationDaoObject.findPresentationById(presentationId);
 		
@@ -55,7 +56,7 @@ public class ReviewService {
             	}
             	if(presentation.getStatus()==PresentationStatus.VotingPollOn)
             	{
-            		paasedReview.setVoter(user);
+            		paasedReview.setVoter(user1);
                 	
                 	List<Review> reviewList=presentation.getReviews();
                 	
